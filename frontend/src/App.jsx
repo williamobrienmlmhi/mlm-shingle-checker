@@ -1,20 +1,24 @@
 import { useState } from "react";
 
 function App() {
-  const [address, setAddress] = useState("");
   const [photo, setPhoto] = useState(null);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const checkAddress = async () => {
+  const checkShingles = async () => {
     setLoading(true);
     setError(null);
     setResult(null);
 
+     if (!photo) {
+    setError("Please upload a roof image");
+    setLoading(false);
+    return;
+  }
+
     try {
       const formData = new FormData();
-formData.append("address", address);
 formData.append("photo", photo);
       const res = await fetch("https://shingle-backend.onrender.com/check", {
   method: "POST",
@@ -40,14 +44,6 @@ formData.append("photo", photo);
     <div style={{ padding: "40px", fontFamily: "Arial" }}>
       <h1>MLM Shingle Checker</h1>
 
-      <input
-        type="text"
-        placeholder="Enter property address"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-        style={{ padding: "8px", width: "300px" }}
-      />
-      <br /><br />
 
 <input
   type="file"
@@ -57,7 +53,7 @@ formData.append("photo", photo);
 <br /><br />
 
 
-      <button onClick={checkAddress} disabled={loading}>
+      <button onClick={checkShingles} disabled={loading}>
         {loading ? "Checking..." : "Check Shingles"}
       </button>
 
@@ -68,7 +64,6 @@ formData.append("photo", photo);
       {result && (
         <div>
           <h3>Result</h3>
-          <p><strong>Address:</strong> {result.address}</p>
           <p><strong>Risk Level:</strong> {result.riskLevel}</p>
           <p><strong>Recommendation:</strong> {result.recommendation}</p>
           <p><strong>Confidence Score:</strong> {result.confidenceScore}</p>
