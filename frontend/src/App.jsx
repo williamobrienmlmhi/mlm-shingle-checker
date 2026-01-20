@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ShingleChecker from "./ShingleChecker";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
