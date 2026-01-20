@@ -3,6 +3,12 @@ import cors from "cors";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+console.log("ENV CHECK:", {
+  ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+  ADMIN_PASSWORD: process.env.ADMIN_PASSWORD ? "SET" : "MISSING",
+  JWT_SECRET: process.env.JWT_SECRET ? "SET" : "MISSING"
+});
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -10,9 +16,12 @@ app.use(express.json());
 // In-memory user store (v1)
 const users = [];
 
-
 const ensureAdminUser = async () => {
   if (!process.env.ADMIN_EMAIL || !process.env.ADMIN_PASSWORD) {
+    console.error("Missing admin env vars", {
+      ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+      ADMIN_PASSWORD: process.env.ADMIN_PASSWORD
+    });
     throw new Error("Admin credentials are not set");
   }
 
