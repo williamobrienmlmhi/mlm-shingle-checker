@@ -10,7 +10,25 @@ function App() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+const login = async () => {
+  setError(null);
 
+  try {
+    const res = await fetch("https://YOUR-BACKEND-URL.onrender.com/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Login failed");
+
+    localStorage.setItem("token", data.token);
+    setToken(data.token);
+  } catch (err) {
+    setError(err.message);
+  }
+};
   const checkShingles = async () => {
     setLoading(true);
     setError(null);
