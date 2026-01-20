@@ -19,6 +19,9 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(
+  !!localStorage.getItem("token")
+);
     const logout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("role");
