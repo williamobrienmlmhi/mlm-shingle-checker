@@ -43,6 +43,7 @@ function App() {
     setIsAuthenticated(false);
   };
 
+  // 🔐 LOGIN SCREEN
   if (!isAuthenticated) {
     return (
       <div
@@ -88,6 +89,7 @@ function App() {
     );
   }
 
+  // ✅ LOGGED-IN DASHBOARD
   return (
     <div style={{ padding: 40 }}>
       <button
@@ -96,19 +98,8 @@ function App() {
           float: "right",
           background: "#e74c3c",
           color: "white",
-          border: "none",
-          padding: "8px 12px",
-          borderRadius: 4,
-          cursor: "pointer",
-        }}
-      >
-        Logout
-      </button>
+          border: "none
 
-      <h1>MLM Shingle Tracker</h1>
-      <p>You are logged in.</p>
-    </div>
-  );
-}
+          }
 
 export default App;
