@@ -13,14 +13,7 @@ app.get("/", (req, res) => {
 
 // Main check endpoint
 app.post("/check", (req, res) => {
-  const { address } = req.body;
-
-  if (!address) {
-    return res.status(400).json({ error: "Address is required" });
-  }
-
-  res.json({
-    address,
+res.json({
     riskLevel: "Moderate",
     recommendation: "Schedule inspection within 6 months",
     confidenceScore: 0.78,
