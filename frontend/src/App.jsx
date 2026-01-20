@@ -48,13 +48,16 @@ formData.append("photo", photo);
         onChange={(e) => setAddress(e.target.value)}
         style={{ padding: "8px", width: "300px" }}
       />
-<br /><br />
+      <br /><br />
 
 <input
   type="file"
   accept="image/*"
   onChange={(e) => setPhoto(e.target.files[0])}
 />
+<br /><br />
+
+
 
 <br /><br />
       <br /><br />
