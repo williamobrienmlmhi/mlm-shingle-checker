@@ -45,6 +45,9 @@ const ensureAdminUser = async () => {
 
 // LOGIN
 app.post("/auth/login", async (req, res) => {
+   try {
+    await ensureAdminUser();
+     
   const { email, password } = req.body;
 
   const user = users.find((u) => u.email === email);
