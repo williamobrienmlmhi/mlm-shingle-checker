@@ -10,8 +10,15 @@ app.use(express.json());
 // In-memory user store (v1)
 const users = [];
 
-// Create admin user on startup
-(async () => {
+
+const ensureAdminUser = async () => {
+  if (!process.env.ADMIN_EMAIL || !process.env.ADMIN_PASSWORD) {
+    throw new Error("Admin credentials are not set");
+  }
+
+  const exists = users.find(u => u.email === process.env.ADMIN_EMAIL);
+  if (exists) return;
+
   const hashed = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
   users.push({
     id: 1,
@@ -19,7 +26,7 @@ const users = [];
     password: hashed,
     role: "admin",
   });
-})();
+};
 
 // LOGIN
 app.post("/auth/login", async (req, res) => {
