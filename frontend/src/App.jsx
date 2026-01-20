@@ -2,6 +2,7 @@ import { useState } from "react";
 
 function App() {
   const [address, setAddress] = useState("");
+  const [photo, setPhoto] = useState(null);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -12,12 +13,14 @@ function App() {
     setResult(null);
 
     try {
+      const formData = new FormData();
+formData.append("address", address);
+formData.append("photo", photo);
       const res = await fetch("https://shingle-backend.onrender.com/check", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ address }),
+  method: "POST",
+  body: formData,
+});
+        
       });
 
       const data = await res.json();
@@ -45,7 +48,15 @@ function App() {
         onChange={(e) => setAddress(e.target.value)}
         style={{ padding: "8px", width: "300px" }}
       />
+<br /><br />
 
+<input
+  type="file"
+  accept="image/*"
+  onChange={(e) => setPhoto(e.target.files[0])}
+/>
+
+<br /><br />
       <br /><br />
 
       <button onClick={checkAddress} disabled={loading}>
