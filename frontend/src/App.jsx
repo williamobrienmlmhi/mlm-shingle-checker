@@ -2,6 +2,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 function App() {
+    const logout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("role");
+  setIsAuthenticated(false);
+};
     const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState(localStorage.getItem("token"));
