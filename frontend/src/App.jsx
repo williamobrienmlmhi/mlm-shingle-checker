@@ -1,3 +1,20 @@
+{isAuthenticated && (
+  <button
+    onClick={logout}
+    style={{
+      float: "right",
+      background: "#e74c3c",
+      color: "white",
+      border: "none",
+      padding: "8px 12px",
+      borderRadius: 4,
+      cursor: "pointer"
+    }}
+  >
+    Logout
+  </button>
+)}
+
 import { useEffect } from "react";
 import { useState } from "react";
 
