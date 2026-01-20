@@ -21,7 +21,6 @@ formData.append("photo", photo);
   body: formData,
 });
         
-      });
 
       const data = await res.json();
 
@@ -57,10 +56,6 @@ formData.append("photo", photo);
 />
 <br /><br />
 
-
-
-<br /><br />
-      <br /><br />
 
       <button onClick={checkAddress} disabled={loading}>
         {loading ? "Checking..." : "Check Shingles"}
