@@ -13,6 +13,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.json({ status: "API running" });
+});
+
 // In-memory user store (v1)
 const users = [];
 
