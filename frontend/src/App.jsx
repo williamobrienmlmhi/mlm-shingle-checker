@@ -14,7 +14,7 @@ const login = async () => {
   setError(null);
 
   try {
-    const res = await fetch("https://YOUR-BACKEND-URL.onrender.com/auth/login", {
+    const res = await fetchfetch("https://mlm-shingle-backend.onrender.com/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
