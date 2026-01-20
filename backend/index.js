@@ -45,30 +45,25 @@ const ensureAdminUser = async () => {
 
 // LOGIN
 app.post("/auth/login", async (req, res) => {
-   try {
-    await ensureAdminUser();
-     
   const { email, password } = req.body;
 
-  const user = users.find((u) => u.email === email);
-  if (!user) {
-    return res.status(401).json({ error: "Invalid credentials" });
+  // TEMP DEBUG ADMIN LOGIN
+  if (
+    email === process.env.ADMIN_EMAIL &&
+    password === process.env.ADMIN_PASSWORD
+  ) {
+    const token = jwt.sign(
+      { id: 1, role: "admin" },
+      process.env.JWT_SECRET,
+      { expiresIn: "8h" }
+    );
+
+    return res.json({ token, role: "admin" });
   }
 
-  const valid = await bcrypt.compare(password, user.password);
-  if (!valid) {
-    return res.status(401).json({ error: "Invalid credentials" });
-  }
-
-  const token = jwt.sign(
-    { id: user.id, role: user.role },
-    process.env.JWT_SECRET,
-    { expiresIn: "8h" }
-  );
-
-  res.json({ token, role: user.role });
+  return res.status(401).json({ error: "Invalid credentials" });
 });
-
+  
 // AUTH MIDDLEWARE
 const auth = (roles = []) => (req, res, next) => {
   const header = req.headers.authorization;
