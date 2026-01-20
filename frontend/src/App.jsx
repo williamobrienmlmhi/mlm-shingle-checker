@@ -62,7 +62,35 @@ formData.append("photo", photo);
       setLoading(false);
     }
   };
+if (!token) {
+  return (
+    <div style={{ padding: "40px", maxWidth: "400px", margin: "auto" }}>
+      <h2>Login</h2>
 
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        style={{ width: "100%", marginBottom: "10px" }}
+      />
+
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        style={{ width: "100%", marginBottom: "10px" }}
+      />
+
+      <button onClick={login} style={{ width: "100%" }}>
+        Login
+      </button>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
+    </div>
+  );
+}
   return (
     <div style={{ padding: "40px", fontFamily: "Arial" }}>
       <h1>MLM Shingle Checker</h1>
