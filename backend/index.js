@@ -11,24 +11,56 @@ app.get("/", (req, res) => {
   res.json({ status: "API running" });
 });
 
-// TEMP DEBUG ADMIN LOGIN (bypass auth)
-app.post("/auth/login", async (req, res) => {
-  const { email, password } = req.body;
+import bcrypt from "bcryptjs";
 
-  if (
-    email === process.env.ADMIN_EMAIL &&
-    password === process.env.ADMIN_PASSWORD
-  ) {
+const users = [];
+
+const ensureAdminUser = async () => {
+  const index = users.findIndex(
+    u => u.email === process.env.ADMIN_EMAIL
+  );
+
+  if (index !== -1) {
+    users.splice(index, 1);
+  }
+
+  const hashed = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
+
+  users.push({
+    id: 1,
+    email: process.env.ADMIN_EMAIL,
+    password: hashed,
+    role: "admin",
+  });
+};
+
+app.post("/auth/login", async (req, res) => {
+  try {
+    await ensureAdminUser();
+
+    const { email, password } = req.body;
+
+    const user = users.find(u => u.email === email);
+    if (!user) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
     const token = jwt.sign(
-      { id: 1, role: "admin" },
+      { id: user.id, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: "8h" }
     );
 
-    return res.json({ token, role: "admin" });
+    res.json({ token, role: user.role });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Auth failed" });
   }
-
-  return res.status(401).json({ error: "Invalid credentials" });
 });
 
 const PORT = process.env.PORT || 5000;
