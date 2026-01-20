@@ -1,6 +1,11 @@
+import { useEffect } from "react";
 import { useState } from "react";
 
 function App() {
+    const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  
   const [photo, setPhoto] = useState(null);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
